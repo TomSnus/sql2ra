@@ -1,0 +1,40 @@
+Metadata-Version: 2.0
+Name: radb
+Version: 3.0.1
+Summary: A relational algebra interpreter over relational databases
+Home-page: https://github.com/junyang/radb
+Author: Jun Yang
+Author-email: junyang@cs.duke.edu
+License: MIT
+Keywords: database relational algebra
+Platform: UNKNOWN
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Education
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Topic :: Database
+Classifier: Topic :: Database :: Front-Ends
+Classifier: Topic :: Software Development :: Interpreters
+Classifier: Programming Language :: Python :: 3
+Requires-Python: >=3.5
+Requires-Dist: antlr4-python3-runtime
+Requires-Dist: sqlalchemy
+
+RA (``radb``): A relational algebra interpreter over relational databases
+=========================================================================
+
+RA is a simple relational algebra interpreter written in Python 3.  It
+is built on top of an SQL-based relational database system.  It
+implements relational algebra queries by translating them into SQL and
+executing them on the underlying database system through `SQLAlchemy
+<http://www.sqlalchemy.org/>`_.  RA is packaged with `SQLite
+<http://sqlite.org/>`_, so you can use RA as a standalone
+relational-algebra database system.  Alternatively, you can use RA as
+a relational-algebra front-end to connect to other database servers
+from various vendors.
+
+You can follow the `project <https://github.com/junyang/radb>`_ on
+GitHub, or read its documentation `here
+<http://www.cs.duke.edu/~junyang/radb>`_.
+
+
