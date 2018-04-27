@@ -3,17 +3,10 @@ import radb
 from sqlparse.sql import IdentifierList, Identifier
 import radb.parse
 import radb.ast
-from radb.ast import RAString
-from radb.ast import RelRef
-from radb.ast import AttrRef
 from sqlparse.tokens import Keyword, DML
-from radb.ast import Cross
-from radb.ast import Rename
 from radb.ast import *
 from radb.parse import RAParser as sym
 from sqlparse.sql import Where
-
-literals = ["'!='", "'='", "'>'", "'>='", "'<='", "'<>'"]
 
 def create_cross(relations):
     joined_relations = relations[0]
@@ -112,21 +105,15 @@ def create_select(cond):
 
 
 def translate(statement):
-   # sql = "select distinct A.name, B.name from Eats A, Eats B where A.pizza = B.pizza and B.name = 'Amy'"
     stmt = statement
     attributes = None
     if "*" not in str(stmt):
         tokenlist = stmt.token_next_by(i=sqlparse.sql.TokenList)
         attributes = extract_Attributes(tokenlist)
-    #print("attributes" + str(attributes))
     relations = extract_table(statement)
-    #print("relations" + str(relations))
     joined_relations = create_cross(relations)
-    #print("joined_relations" + str(joined_relations))
     where_part = stmt.token_next_by(i=sqlparse.sql.Where)
-    #print("where" + str(where_part))
     select = parse_select(joined_relations, where_part)
-    #print("select " + str(select))
     if select is not None:
         if attributes is None:
             project = select
@@ -137,13 +124,6 @@ def translate(statement):
             project = joined_relations
         else:
             project = radb.ast.Project(attributes, joined_relations)
-
-    print(str(project)+";")
     return (radb.parse.one_statement_from_string(str(project)+";"))
 
 
-
-if __name__ == '__main__':
-    sqlstring = "select distinct * from Person where age=16 and gender='f'"
-    stmt = sqlparse.parse(sqlstring)[0]
-    ra = translate(stmt)
