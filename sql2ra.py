@@ -14,25 +14,11 @@ def create_cross(relations):
         joined_relations = Cross(joined_relations, relations[i])
     return joined_relations
 
-def is_subselect(parsed):
-    if not parsed.is_group:
-        return False
-    for item in parsed.tokens:
-        if item.ttype is DML and item.value.upper() == 'SELECT':
-            return True
-    return False
-
 def extract_from_part(parsed):
     from_seen = False
     for item in parsed.tokens:
         if from_seen:
-            if is_subselect(item):
-                for x in extract_from_part(item):
-                    yield x
-            elif item.ttype is Keyword:
-                raise StopIteration
-            else:
-                yield item
+            yield item
         elif item.ttype is Keyword and item.value.upper() == 'FROM':
             from_seen = True
 
